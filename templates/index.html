@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMAGE CARTOONIFIER</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+  <section>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-content">
+        <div class="logo">
+          <i class='bx bxl-yelp'></i>
+          <h3>CartoonZ</h3>
+        </div>
+        <i class='bx bx-menu' id="btn"></i>
+      </div>
+      <ul class="list">
+        <li class="search">
+          <i class='bx bx-search'></i>
+          <input type="text" placeholder="Search...">
+        </li>
+        <li class="list-item active">
+          <a href="#">
+            <i class='bx bxs-dashboard'></i>
+            <span class="links-name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li class="list-item">
+          <a href="#">
+            <i class='bx bx-user'></i>
+            <span class="links-name">User </span>
+          </a>
+          <span class="tooltip">User </span>
+        </li>
+        <li class="list-item">
+          <a href="#">
+            <i class='bx bx-grid-alt'></i>
+            <span class="links-name">More</span>
+          </a>
+          <span class="tooltip">More</span>
+        </li>
+      </ul>
+
+      <ul class="list-logout">
+        <li>
+          <a href="#">
+            <i class='bx bx-log-out'></i>
+            <span class="links-name">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <div id="image-container">
+    <h1>Image Cartoonifier 🎨</h1>
+
+    <!-- Upload + Options Form -->
+    <form id="cartoon-form" action="/cartoonify" method="POST" enctype="multipart/form-data">
+      <div class="dropzone" id="dropzone">
+        <p><strong>Drop an image here</strong> or click to choose</p>
+        <input type="file" id="image-input" name="image" accept="image/*" required />
+      </div>
+
+      <div class="form-grid">
+        <label>Style
+          <select name="style" id="style">
+            <option value="classic" selected>Classic Cartoon (edges + smooth)</option>
+            <option value="quantized">Clean Cartoon (cel-shaded)</option>
+            <option value="stylization">Painterly (OpenCV stylization)</option>
+            <option value="pencil">Pencil Sketch (color)</option>
+          </select>
+        </label>
+
+        <label>Edge Mode
+          <select name="edge_mode" id="edge_mode">
+            <option value="adaptive" selected>Adaptive (bold)</option>
+            <option value="canny">Canny (fine)</option>
+            <option value="dog">DoG (inky)</option>
+          </select>
+        </label>
+
+        <label>Edge Thickness
+          <input type="number" name="edge_thicken" id="edge_thicken" min="0" max="5" value="3"/>
+        </label>
+
+        <label>Edge Opacity (0–1)
+          <input type="number" name="edge_opacity" id="edge_opacity" step="0.05" min="0" max="1" value="1"/>
+        </label>
+
+        <label>K-means K (Clean Cartoon only)
+          <input type="number" name="kmeans_k" id="kmeans_k" min="4" max="12" value="8"/>
+        </label>
+      </div>
+
+      <button type="submit" id="cartoonify-button" class="primary">Cartoonify!</button>
+    </form>
+
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <div class="loading-text">Processing...</div>
+    </div>
+
+    <div class="preview-grid">
+      <div>
+        <h3>Original</h3>
+        <img id="original-image" alt="Original Image" />
+      </div>
+      <div>
+        <h3>Cartoonized</h3>
+        <img id="cartoon-image" alt="Cartoon Image" />
+        <a id="download-btn" class="download" href="#" download="cartoon.jpg" style="display:none;">Download</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
